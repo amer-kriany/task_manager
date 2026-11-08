@@ -21,7 +21,7 @@ class TaskController extends Controller
         return response()->json($task,200);
     }
 
-    public function update($id, Request $request){
+    public function update( Request $request,$id){
 
         $task= Task::findOrFail($id);
         
@@ -35,10 +35,10 @@ class TaskController extends Controller
         return response()->json($task,200);
     }
 
-    public function delete($id){
+    public function destroy($id){
       $task= Task::findOrFail($id);
-      $task->destroy();
+      $task->delete();
 
-        return response()->json(204);
+        return response()->json(null,204);
     }
 }
