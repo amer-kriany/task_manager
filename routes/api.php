@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -13,3 +14,4 @@ Route::patch('/tasks/{id}',[TaskController::class,'update']);
 Route::get('/tasks',[TaskController::class,'index']);
 Route::delete('/tasks/{id}',[TaskController::class,'destroy']);
 Route::get('/tasks/{id}',[TaskController::class,'show']);
+Route::apiResource('/profile',ProfileController::class);
