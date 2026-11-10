@@ -6,6 +6,7 @@ use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
+use App\Models\User;
 
 class TaskController extends Controller
 {
@@ -41,5 +42,11 @@ class TaskController extends Controller
       $task->delete();
 
         return response()->json(null,204);
+    }
+
+    public function getUserTasks($userId){
+        $tasks=User::findOrFail($userId);
+        return TaskResource::collection($tasks->tasks);
+
     }
 }
