@@ -11,6 +11,19 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
+
+Route::post('/register',[UserController::class,'register']);
+Route::post('/login',[UserController::class,'login']);
+
+
+
+
+
+
+
+
+
+
 Route::apiResource('/profile',ProfileController::class);
 Route::apiResource('/task',TaskController::class);
 Route::apiResource('/category',CategoryController::class);
