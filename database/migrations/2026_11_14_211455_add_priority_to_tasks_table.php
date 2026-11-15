@@ -11,11 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('tasks', function (Blueprint $table) {
              Schema::table('tasks',function(Blueprint $table){
             $table->enum('priority',['HIGH','MID','LOW'])->default('MID');
         });
-        });
+       
     }
 
     /**

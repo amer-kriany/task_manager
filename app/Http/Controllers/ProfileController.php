@@ -8,6 +8,7 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\ProfileResource;
 use App\Models\Profile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -29,7 +30,16 @@ class ProfileController extends Controller
     public function store(StoreProfileRequest $request)
 
     {
+        $user_id=Auth::user()->id;
         $validated=$request->validated();
+        $validated['user_id']=$user_id;
+        if($request->hasFile('image')){
+            $path=$request->file('image')->store('my_photo','public');
+            $validated['image']=$path;
+
+        }
+
+
         $profile=Profile::create($validated);
         return (new ProfileResource($profile))->response()->setStatusCode(201);
     }

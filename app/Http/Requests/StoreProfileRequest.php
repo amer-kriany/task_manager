@@ -27,7 +27,6 @@ class StoreProfileRequest extends FormRequest
             'address'=>'required|string',
             "bio"=>'nullable|string|',
             'date_of_birth'=>'nullable|date',
-            'user_id'=>'required|exists:users,id'
 
         ];
     }
