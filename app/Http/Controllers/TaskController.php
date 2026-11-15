@@ -14,6 +14,22 @@ class TaskController extends Controller
 {
 
 
+public function addFavorites($taskId){
+   Task::findOrFail($taskId);
+    Auth::user()->favoritTasks()->syncWithoutDetaching($taskId);
+    return response()->json(['message'=>'task successfully added to favorits'],200);
+}
+public function removeFromFavorites($taskId){
+   Task::findOrFail($taskId);
+    Auth::user()->favoritTasks()->Detach($taskId);
+    return response()->json(['message'=>'task successfully removed to favorits']);
+}
+public function getFavoriteTasks(){
+   $favorits= Auth::user()->favoritTasks;
+    return response()->json($favorits,200);
+}
+
+
 
 
 public function getAll(){

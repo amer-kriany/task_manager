@@ -39,7 +39,7 @@ class User extends Authenticatable
     public function tasks(){
         return $this->hasMany(Task::class);
     }
-    public function favoritTasks){
+    public function favoritTasks(){
         return $this->belongsToMany(Task::class,'favorits');
     }
 

@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -23,6 +24,10 @@ Route::post('/logout',[UserController::class,'logout'])->middleware('auth:sanctu
 
 
 Route::middleware('auth:sanctum')->group(function(){;
+
+Route::post('task/{id}/favorites',[TaskController::class,'addFavorites']);
+Route::delete('task/{id}/favorites',[TaskController::class,'removeFromFavorites']);
+Route::get('task/favorites',[TaskController::class,'getFavoriteTasks']);
 
 
 
