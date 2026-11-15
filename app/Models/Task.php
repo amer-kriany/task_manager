@@ -11,7 +11,8 @@ class Task extends Model
         "description",
         "due_date",
         "status",
-        'user_id'
+        'user_id',
+        'priority'
     ];
 
 
@@ -20,5 +21,8 @@ class Task extends Model
     }
     public function categories(){
         return $this->belongsToMany(Category::class);
+    }
+    public function favoritsByUser(){
+        return  $this->belongsToMany(User::class,'favorits');
     }
 }

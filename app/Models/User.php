@@ -11,6 +11,8 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 
+use function Laravel\Prompts\task;
+
 #[Fillable(['name', 'email', 'password'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
@@ -36,6 +38,9 @@ class User extends Authenticatable
     }
     public function tasks(){
         return $this->hasMany(Task::class);
+    }
+    public function favoritTasks){
+        return $this->belongsToMany(Task::class,'favorits');
     }
 
 }

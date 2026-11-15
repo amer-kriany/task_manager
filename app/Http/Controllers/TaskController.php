@@ -5,13 +5,21 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreTaskRequest;
 use App\Http\Requests\UpdateTaskRequest;
-use App\Http\Resources\CategoryResource;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
 {
+
+
+
+
+public function getAll(){
+    $task=Task::all();
+    return response()->json($task,200);
+}
 
    public function addCategoriesToTask(Request $request , $id){
     $task=Task::findOrFail($id);
@@ -32,15 +40,20 @@ class TaskController extends Controller
 
 
     public function store(StoreTaskRequest $request){
+        $user_id=Auth::user()->id;
     $validated=$request->validated();
+    $validated['user_id']=$user_id;
         $task=Task::create($validated);
-        return (new TaskResource($task))
-        ->response()
-        ->setStatusCode(201);
+        return response()->json($task,201);
     }
     public function index(){
-        $task=Task::all();
-        return TaskResource::collection($task)->response()->setStatusCode(200);
+        $tasks=Auth::user()->tasks;
+        return response()->json($tasks,200);
+    }
+    public function getTasksByOrder(){
+
+        $tasks=Auth::user()->tasks()->orderByRaw("FIELD(priority,'HIGH','MID','LOW')")->get();
+        return response()->json($tasks,200);
     }
     public function show( $id){
         $task=Task::findOrFail($id);
@@ -49,13 +62,17 @@ class TaskController extends Controller
     }
 
     public function update( UpdateTaskRequest $request,$id){
+        $user_id=Auth::user()->id;
         $validated=$request->validated();
 
         $task= Task::findOrFail($id);
-        
+        if($task->user_id!=$user_id){
+             return response()->json(['message'=>'unauthoraized'],401);
+
+        }
         
        $task-> update($validated);
-        return (new TaskResource($task))->response()->setStatusCode(200);
+        return response()->json($task,200);
     }
 
     public function destroy($id){

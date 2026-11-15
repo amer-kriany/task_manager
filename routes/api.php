@@ -22,13 +22,21 @@ Route::post('/logout',[UserController::class,'logout'])->middleware('auth:sanctu
 
 
 
+Route::middleware('auth:sanctum')->group(function(){;
 
+
+
+Route::get('/task/all',[TaskController::class,'getAll'])->middleware('CheckUser');
 
 
 Route::apiResource('/profile',ProfileController::class);
 Route::apiResource('/task',TaskController::class);
+Route::get('/tasks/ordered',[TaskController::class,'getTasksByOrder']);
 Route::apiResource('/category',CategoryController::class);
 Route::get('/getUserTasks/{userId}',[TaskController::class,'getUserTasks']);
 Route::get('/getTasksUser/{userId}',[UserController::class,'getTasksUser']);
-Route::post('tasks/{taskId}/categories',[TaskController::class,'addCategoriesToTask']);
-Route::get('tasks/{taskId}/categories',[TaskController::class,'getTaskCategories']);
+Route::prefix('tasks')->group(function(){
+Route::post('/{taskId}/categories',[TaskController::class,'addCategoriesToTask']);
+Route::get('/{taskId}/categories',[TaskController::class,'getTaskCategories']);
+});
+});
