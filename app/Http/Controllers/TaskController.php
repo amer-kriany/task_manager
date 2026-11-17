@@ -8,6 +8,8 @@ use App\Http\Requests\UpdateTaskRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Task;
 use App\Models\User;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Support\Facades\Auth;
 
 class TaskController extends Controller
@@ -92,10 +94,21 @@ public function getAll(){
     }
 
     public function destroy($id){
-      $task= Task::findOrFail($id);
+    try{  $task= Task::findOrFail($id);
       $task->delete();
 
         return response()->json(null,204);
+        }
+        catch(ModelNotFoundException $e){
+            return response()->json(['error'=>'task not found',
+            'deatails'=>$e->getMessage()],404);
+        }
+        catch(Exception $e){
+            return response()->json([
+                'error'=> 'something went wrong',
+                'details'=>$e->getMessage()
+            ],400);
+        };
     }
 
     public function getUserTasks($userId){
