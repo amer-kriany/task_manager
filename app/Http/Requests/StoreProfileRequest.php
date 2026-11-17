@@ -27,6 +27,7 @@ class StoreProfileRequest extends FormRequest
             'address'=>'required|string',
             "bio"=>'nullable|string|',
             'date_of_birth'=>'nullable|date',
+            'image'=>'required|image|mimes:png,jpg,jpeg,gif|max:2048',
 
         ];
     }

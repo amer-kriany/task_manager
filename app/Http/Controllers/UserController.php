@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\UserResource;
 use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -67,5 +68,12 @@ class UserController extends Controller
         $task=Task::findOrFail($userId);
         return response()->json($task->user);
         
+    }
+
+    public function getUser(){
+        // $user_id=Auth::user()->id;
+        $user=User::with('profile')->get();
+        return ( UserResource::collection($user))->response()->setStatusCode(200);
+
     }
 }

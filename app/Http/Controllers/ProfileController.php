@@ -34,14 +34,14 @@ class ProfileController extends Controller
         $validated=$request->validated();
         $validated['user_id']=$user_id;
         if($request->hasFile('image')){
-            $path=$request->file('image')->store('my_photo','public');
+            $path=$request->file('image')->store('my photo','public');
             $validated['image']=$path;
 
         }
 
 
         $profile=Profile::create($validated);
-        return (new ProfileResource($profile))->response()->setStatusCode(201);
+        return response()->json($profile,201);
     }
     
 

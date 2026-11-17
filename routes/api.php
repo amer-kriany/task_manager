@@ -8,10 +8,6 @@ use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
-
 
 Route::post('/register',[UserController::class,'register']);
 Route::post('/login',[UserController::class,'login']);
@@ -24,6 +20,9 @@ Route::post('/logout',[UserController::class,'logout'])->middleware('auth:sanctu
 
 
 Route::middleware('auth:sanctum')->group(function(){;
+
+Route::get('/getUser',[UserController::class,'getUser']);
+
 
 Route::post('task/{id}/favorites',[TaskController::class,'addFavorites']);
 Route::delete('task/{id}/favorites',[TaskController::class,'removeFromFavorites']);
